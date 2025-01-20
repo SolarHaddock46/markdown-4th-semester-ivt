@@ -64,7 +64,7 @@ $V \equiv \Phi$ - невозможное событие
   $P(\sum_{i=1}^{n}A_i) = P(\sum_{j=1}^{n}A_j)$
 - Непрерывность:
 
-  $A_1, ..., A_n: A_1 \subset A_2 \subset A_3 \subset ..., \prod_{n=1}^{\infty}A_n = \emptyset \Rightarrow \lim_{n \rightarrow \infty} P(A_n) = 0$
+  $A_1, ..., A_n: A_1 \supset A_2 \supset A_3 \supset ..., \prod_{n=1}^{\infty}A_n = \emptyset \Rightarrow \lim_{n \rightarrow \infty} P(A_n) = 0$
 
 ### Вторая система аксиом
 
