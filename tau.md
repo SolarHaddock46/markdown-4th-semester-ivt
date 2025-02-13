@@ -462,3 +462,114 @@ $f_{(4)} = 1(0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 15)$
 3. доопределить неопределенные значения 0 или 1 так, чтобы выполнялось основное правило: количество склеиваний должно быть минимально, количество минтермов в каждом склеивании должно быть максимально
 4. получить МДНФ инверсии исходной функции
 5. по правилу де Моргана преобразовать правую часть полученной записи и получить МКНФ исходной функции
+
+# Лекция 5
+Минимальные формы не гарантируют построения самой оптимальной логической схемы.
+
+## Пример
+
+Берем базис из простых элементов И, ИЛИ, НЕ.
+
+МДНФ $f_{(3)} = ab + ac + \overline{a}\overline{b}\overline{c}$.
+
+3 - НЕ, 3 - И, 1 - ИЛИ
+
+Всего получается 7 элементов, но можно преобразовать еще:
+
+$f_{(3)} = ab + ac + \overline{a}\overline{b}\overline{c} = a(b+c) + \overline{a}\overline{b}\overline{c} = a(b+c) + \overline{(a+b+c)}$
+
+Теперь у нас 1 - НЕ, 3 - ИЛИ, 1 - И. Всего 5 элементов.
+
+## Еще пример для МКНФ
+
+$f_{(3)} = (a + b)(a+c)(\overline{a}+\overline{b}+\overline{c})$
+
+3 - НЕ, 3 - ИЛИ, 1 - И. Всего 7. Преобразуем:
+
+$f_{(3)} = (a + b)(a+c)(\overline{a}+\overline{b}+\overline{c}) = (a+bc)(\overline{a}+\overline{b}+\overline{c}) = (a+bc)\overline{(abc)}$
+
+## Канонические формы переключательных функций алгебры логики
+
+Всего их 8.
+
+$f_{(3)} = 1(0, 3, 6, 7)$
+
+СДНФ: $f = \overline{a}\overline{b}\overline{c} + \overline{a}bc + ab\overline{c}+abc$
+
+Начинаем страдать:
+
+1. $f = \overline{\overline{\overline{a}\overline{b}\overline{c} + \overline{a}bc + ab\overline{c}+abc}}$ - базис И, ИЛИ, НЕ
+
+2. $f = \overline{\overline{(\overline{a}\overline{b}\overline{c})}\cdot\overline{(\overline{a}bc)}\overline{(ab\overline{c})}\cdot\overline{(abc)}}$ - базис И-НЕ
+
+3. $f = \overline{(a+b+c)(a+\overline{b}+\overline{c})(\overline{a}+\overline{b}+c)(\overline{a}+\overline{b}+\overline{c})}$ - базис И-НЕ, ИЛИ
+
+4. $f = \overline{(a+b+c)}+\overline{(\overline{a}+\overline{b}+\overline{c})}+\overline{(\overline{a}+\overline{b}+c)}+\overline{(\overline{a}+\overline{b}+\overline{c})}$ - базис ИЛИ-НЕ, ИЛИ
+
+Если необходимо проектировать устройство в одном из четырех заданных базисов, надо:
+1. получить МДНФ
+2. взять над полученным выражением двойную инверсию и с помощью правила де Моргана прийти к требуемому варианту реализации
+
+А теперь берем СКНФ: $f_{(3)} = (a+b+\overline{c})(a+\overline{b}+c)(\overline{a}+b+c)(\overline{a}+b+\overline{c})$
+
+Погнали страдать еще раз:
+
+5. $f = \overline{\overline{(a+b+\overline{c})(a+\overline{b}+c)(\overline{a}+b+c)(\overline{a}+b+\overline{c})}}$ - базис И, ИЛИ, НЕ
+6. $f = \overline{\overline{(a+b+\overline{c})}+\overline{(a+\overline{b}+c)}+\overline{(\overline{a}+b+c)}+\overline{(\overline{a}+b+\overline{c})}}$ - базис ИЛИ-НЕ
+7. $f = \overline{(\overline{a}\overline{b}c)+(\overline{a}b\overline{c})+(a\overline{b}\overline{c})+(a\overline{b}c)}$ - базис ИЛИ-НЕ, И, **не всегда оптимален для МКНФ**
+8. $f = \overline{(\overline{a}\overline{b}c)}\cdot\overline{(\overline{a}b\overline{c})}\cdot\overline{(a\overline{b}\overline{c})}\cdot\overline{(a\overline{b}c)}$ - базис И-НЕ, И
+
+### Что когда брать
+МДНФ брать для базисов
+1. И, ИЛИ, НЕ
+2. И-НЕ
+3. И-НЕ, ИЛИ
+4. ИЛИ-НЕ, ИЛИ
+
+А МКНФ брать для базисов
+1. И, ИЛИ, НЕ
+2. ИЛИ-НЕ
+3. ИЛИ-НЕ, И
+4. И-НЕ, И
+
+> И еще ремар(очка) от деда: И, ИЛИ-НЕ и ИЛИ-НЕ, И - это одно и то же; И-НЕ, ИЛИ и ИЛИ, И-НЕ - тоже одно и то же.
+
+## Задача
+
+$f_{(4)} = 1(0, 1, 2, 3, 6, 7, 8, 9, 14, 15)$ реализовать в И-НЕ, ИЛИ.
+
+Берем МДНФ: $f_{(4)} = bc + \overline{b}\overline{c}+\overline{a}\overline{b}$
+
+Еще есть вариант $f_{(4)} = bc + \overline{b}\overline{c}+\overline{a}с$, но пока мы поработаем с первым.
+
+$\overline{\overline{bc + \overline{b}\overline{c}+\overline{a}\overline{b}}} = \overline{\overline{(bc)}\cdot\overline{(\overline{b}\overline{c})}\cdot(\overline{a}\overline{b})} = \overline{(\overline{b}+\overline{c})(b+c)(a+b)} = \overline{\overline{(bc)}(b+c)(a+b)}$
+
+Сейчас у нас 2 элемента И-НЕ, 2 элемента ИЛИ. Теперь второй вариант:
+
+$\overline{\overline{bc + \overline{b}\overline{c}+\overline{a}с}} = \overline{\overline{(bc)}\cdot\overline{(\overline{b}\overline{c})}\cdot\overline{(\overline{a}c)}} = \overline{(\overline{b}+\overline{c})(b+c)(a+\overline{c})} = \overline{\overline{(bc)}(b+c)(a+\overline{c})}$
+
+А тут получилось 3 И-НЕ, 2 ИЛИ. Этот варик нас не устраивает, потому что мы уже нашли вариант с четырьмя элементами.
+
+## Общий алгоритм проектирования устройства в заданном базисе логических элементов
+1. Получить все минимальные формы
+2. Прийти к требуемой канонической форме, используя двойную инверсию
+3. Используя законы алгебры логики, упростить полученное выражение
+4. Выбрать вариант с минимальным количеством логических элементов
+5. Синтезировать графическое изображение проектируемого устройства
+
+## Проектирование схем с несколькими выходами
+
+Есть устройство с двумя входами и тремя выходами, которое надо спроектировать в классическом базисе И, ИЛИ. НЕ. 
+
+Пусть
+
+$y_1 = a+b, y_2 = \overline{a}\cdot\overline{b}, y_3 = (a+\overline{b})(\overline{a}+b)$
+
+Если требуется спроектировать максимально надежное устройство, то каждый выход проектируется отдельной схемой. Но если требуется спроектировать устройство с минимальным количеством элементов, мы делаем следующее:
+$$
+y_1 = a + b \\
+y_2 = \overline{a+b} = \overline{a}\cdot\overline{b} = \overline{y_1} \\
+y_3 = (a+\overline{b})(\overline{a}+b) = (\overline{a}\overline{b})(ab) = y_2 \cdot (ab)
+$$
+
+И так из схемы из 9 элементов мы получаем схему из четырех.
